@@ -35,6 +35,8 @@ public:
     bool isBlank(int, int);
     ValueType getCell(int, int);
     void setCell(int, int, int);
+    void setCellConflicts(int, int);
+    void setConflicts();
     void printConflicts();
 
 private:
@@ -43,10 +45,11 @@ private:
     // dimension, i.e., they are each (BoardSize+1) * (BoardSize+1)
 
     matrix<ValueType> value;
+    matrix<vector<int>> conflicts;
 };
 
 board::board(int sqSize)
-    : value(BoardSize + 1, BoardSize + 1)
+    : value(BoardSize + 1, BoardSize + 1), conflicts(BoardSize + 1, BoardSize + 1)
     // Board constructor
 {
     clear();
@@ -158,9 +161,172 @@ void board::print()
     cout << endl;
 }
 
+void board::setCellConflicts(int i, int j)
+{
+    vector<int> cellConflict(10, 0);
+    int square = squareNumber(i, j);
+
+    for (int num = 1; num <= 9; num++)
+    {
+        for (int col = 1; col <= BoardSize; col++)
+        {
+            if (value[i][col] == num && col != j)
+            {
+                cellConflict[num]++;
+            }
+        }
+        for (int row = 1; row <= BoardSize; row++)
+        {
+            if (value[row][j] == num && row != i)
+            {
+                cellConflict[num]++;
+            }
+        }
+        if (square == 1)
+        {
+            for (int row = 1; row < 4; row++)
+            {
+                for (int col = 1; col < 4; col++)
+                {
+                    if (value[row][col] == num && row != i && col != j)
+                    {
+                        cellConflict[num]++;
+                    }
+                }
+            }
+        }
+        if (square == 2)
+        {
+            for (int row = 1; row < 4; row++)
+            {
+                for (int col = 4; col < 7; col++)
+                {
+                    if (value[row][col] == num && row != i && col != j)
+                    {
+                        cellConflict[num]++;
+                    }
+                }
+            }
+        }
+        if (square == 3)
+        {
+            for (int row = 1; row < 4; row++)
+            {
+                for (int col = 7; col < 10; col++)
+                {
+                    if (value[row][col] == num && row != i && col != j)
+                    {
+                        cellConflict[num]++;
+                    }
+                }
+            }
+        }
+        // NEXT ROW OF SQUARES
+        if (square == 4)
+        {
+            for (int row = 4; row < 7; row++)
+            {
+                for (int col = 1; col < 4; col++)
+                {
+                    if (value[row][col] == num && row != i && col != j)
+                    {
+                        cellConflict[num]++;
+                    }
+                }
+            }
+        }
+        if (square == 5)
+        {
+            for (int row = 4; row < 7; row++)
+            {
+                for (int col = 4; col < 7; col++)
+                {
+                    if (value[row][col] == num && row != i && col != j)
+                    {
+                        cellConflict[num]++;
+                    }
+                }
+            }
+        }
+        if (square == 6)
+        {
+            for (int row = 4; row < 7; row++)
+            {
+                for (int col = 7; col < 10; col++)
+                {
+                    if (value[row][col] == num && row != i && col != j)
+                    {
+                        cellConflict[num]++;
+                    }
+                }
+            }
+        }
+        // NEXT ROW OF SQUARES
+        if (square == 7)
+        {
+            for (int row = 7; row < 10; row++)
+            {
+                for (int col = 1; col < 4; col++)
+                {
+                    if (value[row][col] == num && row != i && col != j)
+                    {
+                        cellConflict[num]++;
+                    }
+                }
+            }
+        }
+        if (square == 8)
+        {
+            for (int row = 7; row < 10; row++)
+            {
+                for (int col = 4; col < 7; col++)
+                {
+                    if (value[row][col] == num && row != i && col != j)
+                    {
+                        cellConflict[num]++;
+                    }
+                }
+            }
+        }
+        if (square == 9)
+        {
+            for (int row = 7; row < 10; row++)
+            {
+                for (int col = 7; col < 10; col++)
+                {
+                    if (value[row][col] == num && row != i && col != j)
+                    {
+                        cellConflict[num]++;
+                    }
+                }
+            }
+        }
+    }
+    conflicts[i][j] = cellConflict;
+}
+
+void board::setConflicts()
+{
+    for (int i = 1; i <= BoardSize; i++)
+    {
+        for (int j = 1; j <= BoardSize; j++)
+        {
+            setCellConflicts(i, j);
+        }
+    }
+}
+
 void board::printConflicts()
 {
-    cout << "conflicts" << endl;
+    for (int i = 1; i <= BoardSize; i++)
+    {
+        for (int j = 1; j <= BoardSize; j++)
+        {
+            cout << "Conflicts Cell [" << i << "][" << j << "]: ";
+            cout << conflicts[i][j];
+        }
+        cout << endl;
+    }
 }
 
 int main()
@@ -184,6 +350,7 @@ int main()
         while (fin && fin.peek() != 'Z')
         {
             b1.initialize(fin);
+            b1.setConflicts();
             b1.print();
             b1.printConflicts();
         }

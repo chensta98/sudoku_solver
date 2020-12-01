@@ -1,3 +1,1 @@
-﻿  sudoku_solver.cpp
-C:\Users\17ech\source\repos\sudoku_solver\sudoku_solver\sudoku_solver.cpp(105,23): warning C4018: '<': signed/unsigned mismatch
-  sudoku_solver.vcxproj -> C:\Users\17ech\source\repos\sudoku_solver\Debug\sudoku_solver.exe
+﻿  sudoku_solver.vcxproj -> C:\Users\17ech\Source\Repos\sudoku_solver\Debug\sudoku_solver.exe

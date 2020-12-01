@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="sudoku_solver.cpp" />
+    <ClCompile Include="sudoku.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d_except.h" />

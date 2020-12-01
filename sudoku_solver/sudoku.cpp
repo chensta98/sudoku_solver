@@ -41,7 +41,7 @@ public:
     void setCellConflicts(int, int);
     void setConflicts();
     void printConflicts();
-    void findBlank(int, int);
+    void findBlank();
     bool sudokuComplete();
 
 private:
@@ -334,7 +334,7 @@ void board::printConflicts()
     }
 }
 
-void board::findBlank(int i, int j)
+void board::findBlank()
 {
     for (int i = 0; i < BoardSize; i++)
     {
@@ -361,30 +361,30 @@ bool board::sudokuComplete()
     return true;
 }
 
-void solve(Board& board)
+void solve(board& board_pass)
 {
     int i = -1;
     int j = -1;
     vector<int> conflicts;
     RecursionCount++;
 
-    if (board.sudokuComplete())
+    if (board_pass.sudokuComplete())
     {
         return;
     }
 
-    board.findBlankCell(i, j);
-    conflicts = board.setCellConflicts[i][j];
+    board_pass.findBlank();
+    board_pass.setCellConflicts(i, j);
     
     for (int n = 1; n < 10; n++)
     {
         if (conflicts[n] == 0)
         {
-            board.setCell(i, j, n);
-            solve(board, fout);
-            if (board.sudokuComplete())
+            board_pass.setCell(i, j, n);
+            solve(board_pass);
+            if (board_pass.sudokuComplete())
                 return;
-            board.clearCell(i, j);
+            board_pass.setCell(i, j, Blank);
         }
     }
 }
